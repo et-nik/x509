@@ -188,6 +188,7 @@ class TBSCertificate
         $cri = $cr->certificationRequestInfo();
         $tbs_cert = new self($cri->subject(), $cri->subjectPKInfo(), new Name(),
             Validity::fromStrings(null, null));
+
         // if CSR has Extension Request attribute
         if ($cri->hasAttributes()) {
             $attribs = $cri->attributes();
@@ -197,11 +198,7 @@ class TBSCertificate
                         ->extensions());
             }
         }
-        // add Subject Key Identifier extension
-        $tbs_cert = $tbs_cert->withAdditionalExtensions(
-            new SubjectKeyIdentifierExtension(false,
-                $cri->subjectPKInfo()
-                    ->keyIdentifier()));
+        
         return $tbs_cert;
     }
     
