@@ -40,12 +40,14 @@ openssl_pkey_export(
         ["private_key_type" => OPENSSL_KEYTYPE_RSA,
             "private_key_bits" => 2048]), $pkey);
 $ca_private_key = PrivateKeyInfo::fromPEM(PEM::fromString($pkey));
+
 // Issuer private key
 openssl_pkey_export(
     openssl_pkey_new(
         ["private_key_type" => OPENSSL_KEYTYPE_RSA,
             "private_key_bits" => 2048]), $pkey);
 $issuer_private_key = PrivateKeyInfo::fromPEM(PEM::fromString($pkey));
+
 // Holder private key
 openssl_pkey_export(
     openssl_pkey_new(
@@ -59,6 +61,7 @@ $tbs_cert = new TBSCertificate(
     $ca_private_key->publicKeyInfo(),
     Name::fromString("cn=CA"),
     Validity::fromStrings("now", "now + 1 year"));
+
 $tbs_cert = $tbs_cert->withRandomSerialNumber()
     ->withAdditionalExtensions(
         new BasicConstraintsExtension(true, true),
@@ -67,9 +70,11 @@ $tbs_cert = $tbs_cert->withRandomSerialNumber()
         new KeyUsageExtension(true,
             KeyUsageExtension::DIGITAL_SIGNATURE | 
             KeyUsageExtension::KEY_CERT_SIGN));
+
 $algo = SignatureAlgorithmIdentifierFactory::algoForAsymmetricCrypto(
     $ca_private_key->algorithmIdentifier(),
     new SHA256AlgorithmIdentifier());
+
 $ca_cert = $tbs_cert->sign($algo, $ca_private_key);
 
 // create AC issuer certificate
@@ -78,6 +83,7 @@ $tbs_cert = new TBSCertificate(
     $issuer_private_key->publicKeyInfo(), 
     new Name(),
     Validity::fromStrings("now", "now + 6 months"));
+
 $tbs_cert = $tbs_cert->withIssuerCertificate($ca_cert)
     ->withRandomSerialNumber()
     ->withAdditionalExtensions(
@@ -86,9 +92,11 @@ $tbs_cert = $tbs_cert->withIssuerCertificate($ca_cert)
         new KeyUsageExtension(true,
             KeyUsageExtension::DIGITAL_SIGNATURE |
              KeyUsageExtension::KEY_ENCIPHERMENT));
+
 $algo = SignatureAlgorithmIdentifierFactory::algoForAsymmetricCrypto(
     $ca_private_key->algorithmIdentifier(),
     new SHA256AlgorithmIdentifier());
+
 $issuer_cert = $tbs_cert->sign($algo, $ca_private_key);
 
 // create AC holder certificate
@@ -97,6 +105,7 @@ $tbs_cert = new TBSCertificate(
     $holder_private_key->publicKeyInfo(), 
     new Name(),
     Validity::fromStrings("now", "now + 6 months"));
+
 $tbs_cert = $tbs_cert->withIssuerCertificate($ca_cert)
     ->withRandomSerialNumber()
     ->withAdditionalExtensions(
@@ -104,9 +113,11 @@ $tbs_cert = $tbs_cert->withIssuerCertificate($ca_cert)
         new KeyUsageExtension(true,
             KeyUsageExtension::DIGITAL_SIGNATURE |
              KeyUsageExtension::KEY_ENCIPHERMENT));
+
 $algo = SignatureAlgorithmIdentifierFactory::algoForAsymmetricCrypto(
     $ca_private_key->algorithmIdentifier(),
     new SHA256AlgorithmIdentifier());
+
 $holder_cert = $tbs_cert->sign($algo, $ca_private_key);
 
 // named authority that grants the attributes
@@ -133,28 +144,35 @@ $aci = $aci->withRandomSerialNumber()
             $issuer_cert->tbsCertificate()
                 ->subjectPublicKeyInfo()
                 ->keyIdentifier()));
+
 $algo = SignatureAlgorithmIdentifierFactory::algoForAsymmetricCrypto(
     $issuer_private_key->algorithmIdentifier(),
     new SHA256AlgorithmIdentifier());
+
 $ac = $aci->sign($algo, $issuer_private_key);
 
 // validate AC
 $holder_path = new CertificationPath($ca_cert, $holder_cert);
 $issuer_path = new CertificationPath($ca_cert, $issuer_cert);
 $validator_config = new ACValidationConfig($holder_path, $issuer_path);
+
 // targetting must match
 $target = new TargetName(new UniformResourceIdentifier("uri:target_identifier"));
 $validator_config = $validator_config->withTargets($target);
 $validator = new ACValidator($ac, $validator_config);
+
 if ($validator->validate()) {
     fprintf(STDERR, "AC validation succeeded.\n");
 }
 
 fprintf(STDERR, "Root certificate:\n");
 echo "$ca_cert\n";
+
 fprintf(STDERR, "Issuer certificate:\n");
 echo "$issuer_cert\n";
+
 fprintf(STDERR, "Holder certificate:\n");
 echo "$holder_cert\n";
+
 fprintf(STDERR, "Attribute certificate:\n");
 echo "$ac\n";

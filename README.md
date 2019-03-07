@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.org/sop/x509.svg?branch=master)](https://travis-ci.org/sop/x509)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sop/x509/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sop/x509/?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/sop/x509/badge.svg?branch=master)](https://coveralls.io/github/sop/x509?branch=master)
-[![License](https://poser.pugx.org/sop/x509/license)](https://github.com/sop/x509/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/et-nik/x509.svg?branch=master)](https://travis-ci.org/et-nik/x509)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/et-nik/x509/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/et-nik/x509/?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/et-nik/x509/badge.svg?branch=master)](https://coveralls.io/github/et-nik/x509?branch=master)
+[![License](https://poser.pugx.org/et-nik/x509/license)](https://github.com/et-nik/x509/blob/master/LICENSE)
 
 # X.509
 
@@ -41,20 +41,20 @@ corresponding RFC's as a reference documentation.
 ## Installation
 
 This library is available on
-[Packagist](https://packagist.org/packages/sop/x509).
+[Packagist](https://packagist.org/packages/et-nik/x509).
 
-    composer require sop/x509
+    composer require et-nik/x509
 
 ## Code examples
 
 Examples are located in
-[`/examples`](https://github.com/sop/x509/tree/master/examples)
+[`/examples`](https://github.com/et-nik/x509/tree/master/examples)
 directory.
 
--   [Create a CA certificate](https://github.com/sop/x509/blob/master/examples/create-ca-cert.php)
--   [Create a CSR](https://github.com/sop/x509/blob/master/examples/create-csr.php)
--   [Issue a certificate](https://github.com/sop/x509/blob/master/examples/issue-cert.php)
--   [Validate a certification path](https://github.com/sop/x509/blob/master/examples/path-validate.php)
+-   [Create a CA certificate](https://github.com/et-nik/x509/blob/master/examples/create-ca-cert.php)
+-   [Create a CSR](https://github.com/et-nik/x509/blob/master/examples/create-csr.php)
+-   [Issue a certificate](https://github.com/et-nik/x509/blob/master/examples/issue-cert.php)
+-   [Validate a certification path](https://github.com/et-nik/x509/blob/master/examples/path-validate.php)
 
 ## License
 
