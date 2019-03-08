@@ -1,5 +1,5 @@
 {
-  "name": "et-nik/x509",
+  "name": "knik/x509",
   "description": "A PHP library for X.509 public key certificates, attribute certificates, certification requests and certification path validation.",
   "homepage": "https://github.com/sop/x509",
   "license": "MIT",
