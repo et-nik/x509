@@ -43,7 +43,7 @@ corresponding RFC's as a reference documentation.
 This library is available on
 [Packagist](https://packagist.org/packages/et-nik/x509).
 
-    composer require et-nik/x509
+    composer require knik/x509
 
 ## Code examples
 
